@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano && rm -rf /var/cache/apk/*
+
+# Install terraform (https://github.com/hashicorp/terraform)
+RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
+  && echo "Installing terraform v${tfrelease}" \
+  && wget https://releases.hashicorp.com/terraform/${tfrelease}/terraform_${tfrelease}_linux_amd64.zip \
+  && unzip terraform_${tfrelease}_linux_amd64.zip \
+  && mv terraform /usr/bin/terraform \
+  && rm terraform_${tfrelease}_linux_amd64.zip
+  
+# Install atmos (https://github.com/cloudposse/atmos)
+RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/cloudposse/atmos/releases/latest | awk -F / '{print substr($NF,2);}')" \
+  && echo "Installing atmos v${atmosrelease}" \
+  && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_arm64 \
+  && mv atmos_${atmosrelease}_linux_arm64 /usr/bin/atmos \
+  && chmod +x /usr/bin/atmos

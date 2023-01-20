@@ -1,0 +1,100 @@
+name: Docker Build and Publish
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "Dockerfile/**"
+  schedule:
+    - cron: "0 2 * * 0" # Weekly on Sundays at 02:00
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+env:
+  IMAGE_TAG: 1.0.${{ github.run_number }}
+
+jobs:
+  standard-alpine:
+    name: standard-alpine-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache
+
+      - name: Publish to Registry
+        id: publish-standard-alpine-amd64
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-standard-alpine-amd64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: Dockerfile/standard-alpine-amd64
+          tags: "latest,${{ env.IMAGE_TAG }}"
+
+  standard-ubuntu:
+    name: standard-ubuntu-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/standard-ubuntu-amd64 --no-cache
+
+      - name: Publish to Registry
+        id: publish-standard-ubuntu-amd64
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-standard-ubuntu-amd64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: Dockerfile/standard-ubuntu-amd64
+          tags: "latest,${{ env.IMAGE_TAG }}"
+
+  full-alpine:
+    name: full-alpine-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/full-alpine-amd64 --no-cache
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-full-alpine-amd64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: Dockerfile/full-alpine-amd64
+          tags: "latest,${{ env.IMAGE_TAG }}"
+
+  full-ubuntu:
+    name: full-ubuntu-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/full-ubuntu-amd64 --no-cache
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-full-ubuntu-amd64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: Dockerfile/full-ubuntu-amd64
+          tags: "latest,${{ env.IMAGE_TAG }}"

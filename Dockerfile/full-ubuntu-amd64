@@ -1,0 +1,29 @@
+FROM ubuntu:latest
+
+RUN apt update && apt upgrade && apt install -yq wget curl bash jq figlet unzip zip git shellcheck nano
+
+# Install languages, libraries and frameworks
+RUN apt install -yq nodejs npm python3 python3-pip
+
+# Install golang
+COPY --from=golang:alpine3.17 /usr/local/go/ /usr/local/go/
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+# Install terraform (https://github.com/hashicorp/terraform)
+RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
+  && echo "Installing terraform v${tfrelease}" \
+  && wget https://releases.hashicorp.com/terraform/${tfrelease}/terraform_${tfrelease}_linux_amd64.zip \
+  && unzip terraform_${tfrelease}_linux_amd64.zip \
+  && mv terraform /usr/bin/terraform \
+  && rm terraform_${tfrelease}_linux_amd64.zip
+
+# Install atmos (https://github.com/cloudposse/atmos)
+RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/cloudposse/atmos/releases/latest | awk -F / '{print substr($NF,2);}')" \
+  && echo "Installing atmos v${atmosrelease}" \
+  && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_arm64 \
+  && mv atmos_${atmosrelease}_linux_arm64 /usr/bin/atmos \
+  && chmod +x /usr/bin/atmos
+
+# Install aws-azure-login (https://github.com/aws-azure-login/aws-azure-login)
+RUN npm install -g aws-azure-login --unsafe-perm \
+  && chmod -R go+rx $(npm root -g)
