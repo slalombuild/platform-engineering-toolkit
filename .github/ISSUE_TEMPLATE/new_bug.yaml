@@ -1,0 +1,73 @@
+name: "🐛 New Bug"
+description: "Report a bug"
+title: ""
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: Please describe the issue...
+    validations:
+      required: true
+  - type: textarea
+    id: reprod
+    attributes:
+      label: "How to reproduce"
+      description: Please explain how to reproduce the issue...
+      value: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: "Screenshots"
+      description: If applicable, add screenshots to help explain your problem.
+      value: |
+        ![DESCRIPTION](LINK.png)
+      render: bash
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs"
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: bash
+    validations:
+      required: false
+  - type: dropdown
+    id: image-flavour
+    attributes:
+      label: "Image type"
+      description: Which image types are affected?
+      multiple: false
+      options:
+        - Standard
+        - Full
+        - Both
+  - type: dropdown
+    id: image-os
+    attributes:
+      label: "Image base OS"
+      description: Which image base OSes are affected?
+      multiple: false
+      options:
+        - Alpine
+        - Ubuntu
+        - Both
+  - type: dropdown
+    id: image-arch
+    attributes:
+      label: "Image architecture"
+      description: Which image architectures are affected?
+      multiple: false
+      options:
+        - amd64
+    validations:
+      required: false
