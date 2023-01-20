@@ -1,0 +1,9 @@
+docker:
+  - "Dockerfile/*"
+
+documentation:
+  - "**/*.md"
+
+github_actions:
+  - ".github/*"
+  - ".github/**/*"
