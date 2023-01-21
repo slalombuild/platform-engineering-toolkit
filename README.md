@@ -16,7 +16,7 @@ ghcr.io/SlalomBuild/pe-toolkit-standard-ubuntu-amd64:latest
 ghcr.io/SlalomBuild/pe-toolkit-full-alpine-amd64:latest
 ghcr.io/SlalomBuild/pe-toolkit-full-ubuntu-amd64:latest
 ```
-(All images are listed [here](https://github.com/SlalomBuild?tab=packages&repo_name=platform-engineering-toolkit))
+(All images are listed [here](https://github.com/orgs/SlalomBuild/packages?repo_name=platform-engineering-toolkit))
 
 Or to use an image locally (assuming your have docker already setup), run:
 ```bash
