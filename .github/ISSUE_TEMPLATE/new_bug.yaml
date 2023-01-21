@@ -1,5 +1,5 @@
-name: "🐛 New Bug"
-description: "Report a bug"
+name: "Report a bug 🐛"
+description: "Found a bug? Report it here."
 labels: ["bug"]
 body:
   - type: textarea
@@ -49,7 +49,7 @@ body:
       options:
         - Standard
         - Full
-        - Both
+        - All
   - type: dropdown
     id: image-os
     attributes:
@@ -59,7 +59,7 @@ body:
       options:
         - Alpine
         - Ubuntu
-        - Both
+        - All
   - type: dropdown
     id: image-arch
     attributes:
