@@ -2,7 +2,7 @@
 
 We are the **Slalom Build Platform Engineering** capability, and these are our container images with the tools we use for building, maintaining and securing infrastructure as code. 
 
-There are two different flavors, depending on your needs; **standard** and **full**. Standard contains most of the tools required for IaC projects, while Full contains additional languages and tools, such as Node, GoLang and Python.
+There are two different flavors, depending on your needs; **standard** and **full**. Standard contains most of the tools required for IaC projects, while Full contains additional languages and tools, such as Node, Go and Python.
 
 Images are updated weekly (at least), and more frequently when tooling updates occur.
 
