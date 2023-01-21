@@ -9,10 +9,10 @@ RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github
   && unzip terraform_${tfrelease}_linux_amd64.zip \
   && mv terraform /usr/bin/terraform \
   && rm terraform_${tfrelease}_linux_amd64.zip
-  
+
 # Install atmos (https://github.com/cloudposse/atmos)
 RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/cloudposse/atmos/releases/latest | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing atmos v${atmosrelease}" \
-  && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_arm64 \
-  && mv atmos_${atmosrelease}_linux_arm64 /usr/bin/atmos \
+  && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_amd64 \
+  && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
   && chmod +x /usr/bin/atmos
