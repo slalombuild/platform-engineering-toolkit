@@ -18,7 +18,7 @@ ghcr.io/SlalomBuild/pe-toolkit-full-ubuntu-amd64:latest
 ```
 (All images are listed [here](https://github.com/orgs/SlalomBuild/packages?repo_name=platform-engineering-toolkit))
 
-Or to use an image locally (assuming your have docker already setup), run:
+Or to use an image locally (assuming you already have docker setup), run:
 ```bash
 docker pull ghcr.io/SlalomBuild/pe-toolkit-standard-ubuntu-amd64:latest
 ```
@@ -48,8 +48,6 @@ We offer two options (currently); Alpine (latest) and Ubuntu (latest).
 If you'd like a tool added to the images, a different base OS, or a different architecture, please submit a PR. For bugs/security issues, please create a new issue and follow the instructions. Thanks.
 
 ### License
-
-Copyright 2023 Slalom Build
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
