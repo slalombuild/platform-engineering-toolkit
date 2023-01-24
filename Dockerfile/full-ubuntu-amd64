@@ -27,3 +27,14 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
 # Install aws-azure-login (https://github.com/aws-azure-login/aws-azure-login)
 RUN npm install -g aws-azure-login --unsafe-perm \
   && chmod -R go+rx $(npm root -g)
+
+#Install aws cli
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+  && unzip awscliv2.zip \
+  && sudo ./aws/install
+
+#Install PowerShell and Azure cli
+RUN wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" \
+  && dpkg -i packages-microsoft-prod.deb \
+  && sudo apt update \
+  && sudo apt install powershell azure-cli -yq 
