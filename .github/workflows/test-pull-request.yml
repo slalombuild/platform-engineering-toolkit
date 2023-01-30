@@ -1,0 +1,49 @@
+name: Test pull request
+
+on:
+  pull_request:
+    types: [opened, reopened, review_requested]
+    paths:
+      - "Dockerfile/**"
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  standard-alpine:
+    name: standard-alpine-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache
+
+  standard-ubuntu:
+    name: standard-ubuntu-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/standard-ubuntu-amd64 --no-cache
+
+  full-alpine:
+    name: full-alpine-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/full-alpine-amd64 --no-cache
+
+  full-ubuntu:
+    name: full-ubuntu-amd64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile/full-ubuntu-amd64 --no-cache
