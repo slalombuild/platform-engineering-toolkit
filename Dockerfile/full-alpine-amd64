@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano
+RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano gcc
 
 # Install languages, libraries and frameworks
 RUN apk add --update nodejs npm python3 py3-pip
@@ -33,8 +33,18 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
   && unzip awscliv2.zip \
   && ./aws/install
 
+# Install Rust
+COPY --from=rust:alpine3.17 /usr/local/cargo/ /usr/local/cargo/
+ENV PATH="/usr/local/cargo/bin:${PATH}"
+RUN rustup default stable \
+  && apk add --no-cache \
+  musl-dev \
+  build-base \
+  linux-headers \
+  python3-dev
+
 # Install PowerShell and Azure CLI
-RUN pip install azure-cli \
+RUN pip install azure-cli jupyterlab \
   && apk add --no-cache \
   ca-certificates \
   less \
