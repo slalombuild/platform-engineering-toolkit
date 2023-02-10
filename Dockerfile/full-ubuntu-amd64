@@ -3,11 +3,7 @@ FROM ubuntu:latest
 RUN apt update -yq && apt upgrade -yq && apt install -yq wget curl bash jq figlet unzip zip git shellcheck nano
 
 # Install languages, libraries and frameworks
-RUN apt install -yq nodejs npm python3 python3-pip
-
-# Install golang
-COPY --from=golang:alpine3.17 /usr/local/go/ /usr/local/go/
-ENV PATH="/usr/local/go/bin:${PATH}"
+RUN apt install -yq nodejs npm python3 python3-pip golang
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
