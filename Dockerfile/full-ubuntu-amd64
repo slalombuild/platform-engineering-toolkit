@@ -2,6 +2,7 @@ FROM ubuntu:latest
 
 RUN apt update -yq && apt upgrade -yq && apt install -yq wget curl bash jq figlet unzip zip git shellcheck nano lsb-core
 
+
 # Install languages, libraries and frameworks
 RUN apt install -yq nodejs npm python3 python3-pip
 
