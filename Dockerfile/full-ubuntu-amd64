@@ -3,11 +3,7 @@ FROM ubuntu:latest
 RUN apt update -yq && apt upgrade -yq && apt install -yq wget curl bash jq figlet unzip zip git shellcheck nano
 
 # Install languages, libraries and frameworks
-RUN apt install -yq nodejs npm python3 python3-pip
-
-# Install golang
-COPY --from=golang:alpine3.17 /usr/local/go/ /usr/local/go/
-ENV PATH="/usr/local/go/bin:${PATH}"
+RUN apt install -yq nodejs npm python3 python3-pip golang
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
@@ -27,3 +23,12 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
 # Install aws-azure-login (https://github.com/aws-azure-login/aws-azure-login)
 RUN npm install -g aws-azure-login --unsafe-perm \
   && chmod -R go+rx $(npm root -g)
+
+# Install terraform-docs
+RUN export tfdocsrelease="$(curl -s 'https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest' | jq -r '.tag_name')" \
+  && go install github.com/terraform-docs/terraform-docs@${tfdocsrelease} \
+  && export PATH="$PATH:/root/go/bin"
+
+# Install checkov
+RUN export checkovrelease="$(curl -s 'https://api.github.com/repos/bridgecrewio/checkov/releases/latest' | jq -r '.tag_name')" \
+  && pip install checkov==${checkovrelease}
