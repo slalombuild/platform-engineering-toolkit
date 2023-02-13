@@ -2,7 +2,7 @@ name: Test pull request
 
 on:
   pull_request:
-    types: [opened, reopened, review_requested]
+    types: [opened, reopened, review_requested, synchronize]
     paths:
       - "Dockerfile/**"
 
