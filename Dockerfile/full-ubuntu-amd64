@@ -27,7 +27,7 @@ RUN npm install -g aws-azure-login --unsafe-perm \
 # Install terraform-docs
 RUN export tfdocsrelease="$(curl -s 'https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest' | jq -r '.tag_name')" \
   && go install github.com/terraform-docs/terraform-docs@${tfdocsrelease} \
-  && export PATH="$PATH:/root/go/bin"
+  && echo "export PATH=${PATH}:/root/go/bin" >> /root/.bashrc
 
 # Install checkov
 RUN export checkovrelease="$(curl -s 'https://api.github.com/repos/bridgecrewio/checkov/releases/latest' | jq -r '.tag_name')" \
