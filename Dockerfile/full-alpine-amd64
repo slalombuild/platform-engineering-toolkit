@@ -35,6 +35,3 @@ RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://gi
   && go install github.com/terraform-docs/terraform-docs@${tfdocsrelease} \
   && echo "export PATH=${PATH}:/root/go/bin" >> /root/.bashrc
 
-# Install checkov
-RUN export checkovrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/bridgecrewio/checkov/releases/latest | awk -F / '{print substr($NF,1);}')" \
-  && pip install checkov==${checkovrelease}
