@@ -2,12 +2,9 @@ FROM ubuntu:latest
 
 RUN apt update -yq && apt upgrade -yq && apt install -yq wget curl bash jq figlet unzip zip git shellcheck nano lsb-core
 
-# Install languages, libraries and frameworks
-RUN apt install -yq nodejs npm python3 python3-pip
 
-# Install golang
-COPY --from=golang:alpine3.17 /usr/local/go/ /usr/local/go/
-ENV PATH="/usr/local/go/bin:${PATH}"
+# Install languages, libraries and frameworks
+RUN apt install -yq nodejs npm python3 python3-pip golang
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
@@ -44,5 +41,13 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
   && echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
   tee /etc/apt/sources.list.d/azure-cli.list \
   && apt update \
-  && apt install -yq powershell azure-cli \
-  && apt-get autoremove -y
+  && apt install -yq powershell azure-cli
+
+# Install terraform-docs
+RUN export tfdocsrelease="$(curl -s 'https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest' | jq -r '.tag_name')" \
+  && go install github.com/terraform-docs/terraform-docs@${tfdocsrelease} \
+  && export PATH="$PATH:/root/go/bin"
+
+# Install checkov
+RUN export checkovrelease="$(curl -s 'https://api.github.com/repos/bridgecrewio/checkov/releases/latest' | jq -r '.tag_name')" \
+  && pip install checkov==${checkovrelease}
