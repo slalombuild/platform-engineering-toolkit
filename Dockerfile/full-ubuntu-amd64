@@ -1,12 +1,12 @@
 FROM ubuntu:latest
 
-RUN apt update -yq && apt upgrade -yq && apt install --no-install-recommends -yq wget curl bash jq figlet unzip zip git shellcheck nano && rm -rf /var/lib/apt/lists/*
+RUN apt update -yq && apt upgrade -yq && apt install --no-install-recommends -yq ca-certificates wget curl bash jq figlet unzip zip git shellcheck nano && rm -rf /var/lib/apt/lists/*
 
 # Install languages, libraries and frameworks
 RUN apt install --no-install-recommends -yq nodejs npm python3 python3-pip golang && rm -rf /var/lib/apt/lists/*
 
 # Install terraform (https://github.com/hashicorp/terraform)
-RUN export tfrelease="$(curl -Ls --insecure -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
+RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing terraform v${tfrelease}" \
   && wget https://releases.hashicorp.com/terraform/${tfrelease}/terraform_${tfrelease}_linux_amd64.zip \
   && unzip terraform_${tfrelease}_linux_amd64.zip \
@@ -14,7 +14,7 @@ RUN export tfrelease="$(curl -Ls --insecure -o /dev/null -w %{url_effective} htt
   && rm terraform_${tfrelease}_linux_amd64.zip
 
 # Install atmos (https://github.com/cloudposse/atmos)
-RUN export atmosrelease="$(curl -Ls --insecure -o /dev/null -w %{url_effective} https://github.com/cloudposse/atmos/releases/latest | awk -F / '{print substr($NF,2);}')" \
+RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/cloudposse/atmos/releases/latest | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing atmos v${atmosrelease}" \
   && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_amd64 \
   && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
@@ -25,10 +25,10 @@ RUN npm install -g aws-azure-login --unsafe-perm \
   && chmod -R go+rx $(npm root -g)
 
 # Install terraform-docs
-RUN export tfdocsrelease="$(curl -Ls --insecure -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,1);}')" \
+RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,1);}')" \
   && go install github.com/terraform-docs/terraform-docs@${tfdocsrelease} \
   && echo "export PATH=${PATH}:/root/go/bin" >> /root/.bashrc
 
 # Install checkov
-RUN export checkovrelease="$(curl -Ls --insecure -o /dev/null -w %{url_effective} https://github.com/bridgecrewio/checkov/releases/latest | awk -F / '{print substr($NF,1);}')" \
+RUN export checkovrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/bridgecrewio/checkov/releases/latest | awk -F / '{print substr($NF,1);}')" \
   && pip install checkov==${checkovrelease}
