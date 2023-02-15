@@ -1,9 +1,9 @@
 FROM ubuntu:latest
 
-RUN apt update -yq && apt upgrade -yq && apt install –-no-install-recommends -yq wget curl bash jq figlet unzip zip git shellcheck nano && rm -rf /var/lib/apt/lists/*
+RUN apt update -yq && apt upgrade -yq && apt install --no-install-recommends -yq wget curl bash jq figlet unzip zip git shellcheck nano && rm -rf /var/lib/apt/lists/*
 
 # Install languages, libraries and frameworks
-RUN apt install –-no-install-recommends -yq nodejs npm python3 python3-pip golang && rm -rf /var/lib/apt/lists/*
+RUN apt install --no-install-recommends -yq nodejs npm python3 python3-pip golang && rm -rf /var/lib/apt/lists/*
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
