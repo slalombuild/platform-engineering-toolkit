@@ -31,3 +31,31 @@ RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://gi
 # Install checkov
 RUN export checkovrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/bridgecrewio/checkov/releases/latest | awk -F / '{print substr($NF,1);}')" \
   && pip install checkov==${checkovrelease}
+
+# Install Packer https://github.com/hashicorp/packer()
+ARG packer_version=1.8.5
+ARG packer_zip_url=https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
+RUN wget -nv ${packer_zip_url} \
+  && unzip -d /usr/local/bin packer_${packer_version}_linux_amd64.zip \
+  && rm packer_${packer_version}_linux_amd64.zip
+
+# Install hadolint (https://github.com/hadolint/hadolint)
+ARG hadolint_version=2.12.0
+RUN wget -nv https://github.com/hadolint/hadolint/releases/download/v${hadolint_version}/hadolint-Linux-arm64 \
+  && mv hadolint-Linux-x86_64 /usr/local/bin/hadolint \
+  && chmod 755 /usr/local/bin/hadolint
+
+# Install TFLint (https://github.com/terraform-linters/tflint)
+ARG tflint_version=0.45.0
+RUN wget -nv https://github.com/terraform-linters/tflint/releases/download/v${tflint_version}/tflint_linux_amd64.zip \
+  && unzip -d /usr/local/bin tflint_linux_amd64.zip \
+  && rm tflint_linux_amd64.zip
+
+# Install GOSS and set up ENV Vars (https://github.com/goss-org/goss)
+ENV GOSS_PATH='/usr/local/bin/goss' \
+  GOSS_FILES_STRATEGY='cp'
+
+RUN curl -L https://github.com/goss-org/goss/releases/latest/download/goss-linux-amd64 -o /usr/local/bin/goss \
+  && chmod 0755 /usr/local/bin/goss \
+  && curl -L https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o /usr/local/bin/dgoss \
+  && chmod +rx /usr/local/bin/dgoss
