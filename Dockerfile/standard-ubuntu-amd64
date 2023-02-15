@@ -4,7 +4,9 @@ RUN apt update -yq && apt upgrade -yq && apt install --no-install-recommends -yq
 
 RUN curl -V
 
-RUN curl -Ls -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest
+RUN curl -Ls --insecure -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest
+
+RUN export result="$(curl -Ls -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest)" && echo $result
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
