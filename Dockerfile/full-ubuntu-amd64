@@ -50,12 +50,3 @@ ARG tflint_version=0.45.0
 RUN wget -nv https://github.com/terraform-linters/tflint/releases/download/v${tflint_version}/tflint_linux_amd64.zip \
   && unzip -d /usr/local/bin tflint_linux_amd64.zip \
   && rm tflint_linux_amd64.zip
-
-# Install GOSS and set up ENV Vars (https://github.com/goss-org/goss)
-ENV GOSS_PATH='/usr/local/bin/goss' \
-  GOSS_FILES_STRATEGY='cp'
-
-RUN curl -L https://github.com/goss-org/goss/releases/latest/download/goss-linux-amd64 -o /usr/local/bin/goss \
-  && chmod 0755 /usr/local/bin/goss \
-  && curl -L https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o /usr/local/bin/dgoss \
-  && chmod +rx /usr/local/bin/dgoss
