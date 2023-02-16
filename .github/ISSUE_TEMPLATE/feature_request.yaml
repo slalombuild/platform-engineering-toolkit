@@ -12,8 +12,8 @@ body:
       description: What type of request is this?
       multiple: false
       options:
-        - Automation enhancement (pipeline/build/package)
         - Add or change a tool in the images
+        - Automation enhancement (pipeline/build/package)
         - Documentation
         - Something else
     validations:
