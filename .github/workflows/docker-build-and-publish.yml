@@ -24,7 +24,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache
+        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache -t standard-alpine-amd64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "standard-alpine-amd64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
 
       - name: Publish to Registry
         id: publish-standard-alpine-amd64
@@ -45,7 +55,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/standard-ubuntu-amd64 --no-cache
+        run: docker build . --file Dockerfile/standard-ubuntu-amd64 --no-cache -t standard-ubuntu-amd64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "standard-ubuntu-amd64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
 
       - name: Publish to Registry
         id: publish-standard-ubuntu-amd64
@@ -66,7 +86,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/full-alpine-amd64 --no-cache
+        run: docker build . --file Dockerfile/full-alpine-amd64 --no-cache -t full-alpine-amd64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "full-alpine-amd64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
 
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
@@ -86,7 +117,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/full-ubuntu-amd64 --no-cache
+        run: docker build . --file Dockerfile/full-ubuntu-amd64 --no-cache -t full-ubuntu-amd64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "full-ubuntu-amd64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
 
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
