@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano
+RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano tar
 
 # Install languages, libraries and frameworks
 RUN apk add --update nodejs npm python3 py3-pip
@@ -24,14 +24,12 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
   && chmod +x /usr/bin/atmos
 
-# Install aws-azure-login (https://github.com/aws-azure-login/aws-azure-login)
-RUN npm install -g aws-azure-login --unsafe-perm \
-  && chmod -R go+rx $(npm root -g)
+# Install terraform-docs
+RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,2);}')" \
+  && echo "Installing terraform-docs v${tfdocsrelease}" \
+  && wget https://github.com/terraform-docs/terraform-docs/releases/download/v${tfdocsrelease}/terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
+  && tar -xzf terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz -C /usr/bin terraform-docs \
+  && rm terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
+  && chmod +x /usr/bin/terraform-docs
 
 RUN rm -rf /var/cache/apk/*
-
-# Install terraform-docs
-RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,1);}')" \
-  && go install github.com/terraform-docs/terraform-docs@${tfdocsrelease} \
-  && echo "export PATH=${PATH}:/root/go/bin" >> /root/.bashrc
-
