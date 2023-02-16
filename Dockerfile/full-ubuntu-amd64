@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt update -yq && apt upgrade -yq && apt install -yq ca-certificates apt-transport-https wget curl bash jq figlet unzip zip git shellcheck nano tar
+RUN apt update -yq && apt upgrade -yq && apt install -yq ca-certificates apt-transport-https wget curl bash jq figlet unzip zip git shellcheck nano tar && rm -rf /var/lib/apt/lists/*
 
 # Install languages, libraries and frameworks
 RUN apt install -yq nodejs npm python3 python3-pip golang && rm -rf /var/lib/apt/lists/*
@@ -19,11 +19,6 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_amd64 \
   && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
   && chmod +x /usr/bin/atmos
-
-# Removing until specifically required - it's a horrible tool anyway!
-# Install aws-azure-login (https://github.com/aws-azure-login/aws-azure-login)
-# RUN npm install -g aws-azure-login --unsafe-perm \
-#   && chmod -R go+rx $(npm root -g)
 
 # Install terraform-docs
 RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,2);}')" \
