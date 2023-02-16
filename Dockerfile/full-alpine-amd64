@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano
+RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano tar
 
 # Install languages, libraries and frameworks
 RUN apk add --update nodejs npm python3 py3-pip
@@ -35,7 +35,7 @@ RUN rm -rf /var/cache/apk/*
 RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing terraform-docs v${tfdocsrelease}" \
   && wget https://github.com/terraform-docs/terraform-docs/releases/download/v${tfdocsrelease}/terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
-  && tar -xf terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz terraform-docs -C /usr/bin \
-  && terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz
-
+  && tar -xf terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz -C /usr/bin terraform-docs \
+  && terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
+  && chmod +x /usr/bin/terraform-docs
 
