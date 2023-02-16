@@ -35,7 +35,7 @@ RUN rm -rf /var/cache/apk/*
 RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing terraform-docs v${tfdocsrelease}" \
   && wget https://github.com/terraform-docs/terraform-docs/releases/download/v${tfdocsrelease}/terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
-  && tar -xf terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz -C /usr/bin terraform-docs \
+  && tar -xzf "terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz" -C /usr/bin terraform-docs \
   && terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
   && chmod +x /usr/bin/terraform-docs
 
