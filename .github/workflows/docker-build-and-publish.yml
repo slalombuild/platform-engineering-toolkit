@@ -93,6 +93,8 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
 
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
@@ -122,6 +124,8 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
 
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
