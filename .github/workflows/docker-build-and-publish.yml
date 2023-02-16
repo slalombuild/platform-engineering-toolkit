@@ -1,9 +1,8 @@
 name: Docker Build and Publish
 
 on:
-  workflow_dispatch:
   push:
-    branches: ["main","feature/trivy"]
+    branches: ["main"]
   schedule:
     - cron: "0 2 * * 0" # Weekly on Sundays at 02:00
 
@@ -33,6 +32,7 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
+          hide-progress: true
 
       - name: Publish to Registry
         id: publish-standard-alpine-amd64
@@ -63,6 +63,7 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
+          hide-progress: true
 
       - name: Publish to Registry
         id: publish-standard-ubuntu-amd64
