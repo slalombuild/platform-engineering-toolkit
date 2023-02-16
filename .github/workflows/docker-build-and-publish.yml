@@ -3,9 +3,7 @@ name: Docker Build and Publish
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
-    paths:
-      - "Dockerfile/**"
+    branches: ["main","feature/trivy"]
   schedule:
     - cron: "0 2 * * 0" # Weekly on Sundays at 02:00
 
