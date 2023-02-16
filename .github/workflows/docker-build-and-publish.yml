@@ -24,7 +24,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache
+        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache -t standard-alpine-amd64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "standard-alpine-amd64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
 
       - name: Publish to Registry
         id: publish-standard-alpine-amd64
