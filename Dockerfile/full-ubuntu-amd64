@@ -2,6 +2,8 @@ FROM ubuntu:latest
 
 RUN apt update -yq && apt upgrade -yq && apt install -yq ca-certificates apt-transport-https wget curl bash jq figlet unzip zip git shellcheck nano tar
 
+RUN tar --version && /bin/tar --version
+
 # Install languages, libraries and frameworks
 RUN apt install -yq nodejs npm python3 python3-pip golang && rm -rf /var/lib/apt/lists/*
 
@@ -29,7 +31,7 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
 RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing terraform-docs v${tfdocsrelease}" \
   && wget https://github.com/terraform-docs/terraform-docs/releases/download/v${tfdocsrelease}/terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
-  && tar -xf terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz -C /usr/bin terraform-docs \
+  && tar -xf ./terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz -C /usr/bin terraform-docs \
   && terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
   && chmod +x /usr/bin/terraform-docs
 
