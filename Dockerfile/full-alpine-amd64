@@ -13,14 +13,16 @@ RUN apk update && \
     git \
     shellcheck \
     nano \
-    tar
+    tar && \
+    rm -rf /var/cache/apk/*
 
 # Install languages, libraries and frameworks
 RUN apk add --update \
   nodejs \
   npm \
   python3 \
-  py3-pip
+  py3-pip && \
+  rm -rf /var/cache/apk/*
 
 # Install golang
 COPY --from=golang:alpine3.17 /usr/local/go/ /usr/local/go/
@@ -48,8 +50,6 @@ RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://gi
   && tar -xzf terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz -C /usr/bin terraform-docs \
   && rm terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
   && chmod +x /usr/bin/terraform-docs
-
-RUN rm -rf /var/cache/apk/*
 
 # Install Packer https://github.com/hashicorp/packer()
 ARG packer_version=1.8.5

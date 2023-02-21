@@ -1,9 +1,30 @@
 FROM ubuntu:latest
 
-RUN apt update -yq && apt upgrade -yq && apt install -yq ca-certificates apt-transport-https wget curl bash jq figlet unzip zip git shellcheck nano tar
+RUN apt update -yq && \
+  apt upgrade -yq && \
+  apt install -yq \
+    ca-certificates \
+    apt-transport-https \
+    wget \
+    curl \
+    bash \
+    jq \
+    figlet \
+    unzip \
+    zip \
+    git \
+    shellcheck \
+    nano \
+    tar
 
 # Install languages, libraries and frameworks
-RUN apt install -yq nodejs npm python3 python3-pip golang && rm -rf /var/lib/apt/lists/*
+RUN apt install -yq \
+  nodejs \
+  npm \
+  python3 \
+  python3-pip \
+  golang && \
+  rm -rf /var/lib/apt/lists/*
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
