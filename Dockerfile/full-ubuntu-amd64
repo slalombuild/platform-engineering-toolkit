@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 RUN apt update -yq && \
   apt upgrade -yq && \
-  apt install -yq \
+  apt install -yq --no-install-recommends --no-install-suggests \
     ca-certificates \
     apt-transport-https \
     wget \
@@ -18,7 +18,7 @@ RUN apt update -yq && \
     tar
 
 # Install languages, libraries and frameworks
-RUN apt install -yq \
+RUN apt install -yq --no-install-recommends --no-install-suggests \
   nodejs \
   npm \
   python3 \
