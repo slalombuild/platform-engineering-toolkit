@@ -29,7 +29,7 @@ docker pull ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:latest
 
 | Standard | Full |
 | --- | --- |
-| `terraform`<br/> `atmos`<br/> `curl`<br/> `bash`<br/> `jq`<br/> `yq`<br/> `figlet`<br/> `unzip`<br/> `zip`<br/> `git`<br/> `shellcheck`<br/> `nano`<br/> | _everything in standard_<br/> `terraform-docs`<br/> `node` and `npm`<br/> `python` and `pip`<br/> `go`<br/> |
+| `terraform`<br/> `atmos`<br/> `curl`<br/> `bash`<br/> `jq`<br/> `yq`<br/> `figlet`<br/> `unzip`<br/> `zip`<br/> `git`<br/> `shellcheck`<br/> `nano`<br/> | _everything in standard_<br/> `terraform-docs`<br/> `node` and `npm`<br/> `python` and `pip`<br/> `go`<br/> `aws cli`<br/> `azure cli`<br/> `pwsh`<br/> `aws-azure-login`<br/>|
 
 #### I'd like the image(s) to include x, can I add it?
 

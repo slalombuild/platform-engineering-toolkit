@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano tar
+RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano gcc tar
 
 # Install languages, libraries and frameworks
 RUN apk add --update nodejs npm python3 py3-pip
@@ -23,6 +23,50 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_amd64 \
   && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
   && chmod +x /usr/bin/atmos
+
+# Install aws-azure-login (https://github.com/aws-azure-login/aws-azure-login)
+RUN npm install -g aws-azure-login --unsafe-perm \
+  && chmod -R go+rx $(npm root -g)
+
+# Install AWS cli
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+  && unzip awscliv2.zip \
+  && ./aws/install
+
+# Install Rust
+COPY --from=rust:alpine3.17 /usr/local/cargo/ /usr/local/cargo/
+ENV PATH="/usr/local/cargo/bin:${PATH}"
+RUN rustup default stable \
+  && apk add --no-cache \
+  musl-dev \
+  build-base \
+  linux-headers \
+  python3-dev
+
+# Install PowerShell and Azure CLI
+RUN pip install azure-cli jupyterlab \
+  && apk add --no-cache \
+  ca-certificates \
+  less \
+  ncurses-terminfo-base \
+  krb5-libs \
+  libgcc \
+  libintl \
+  libssl1.1 \
+  libstdc++ \
+  tzdata \
+  userspace-rcu \
+  zlib \
+  icu-libs \
+  && apk -X https://dl-cdn.alpinelinux.org/alpine/edge/main add --no-cache \
+  lttng-ust \
+  && curl -L https://github.com/PowerShell/PowerShell/releases/download/v7.3.1/powershell-7.3.1-linux-alpine-x64.tar.gz -o /tmp/powershell.tar.gz \
+  && mkdir -p /opt/microsoft/powershell/7 \
+  && tar zxf /tmp/powershell.tar.gz -C /opt/microsoft/powershell/7 \
+  && chmod +x /opt/microsoft/powershell/7/pwsh \
+  && ln -s /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh
+
+RUN rm -rf /var/cache/apk/*
 
 # Install terraform-docs
 RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest | awk -F / '{print substr($NF,2);}')" \
