@@ -1,9 +1,26 @@
 FROM alpine:latest
 
-RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano tar
+RUN apk update && \
+  apk upgrade && \
+  apk add --update --no-cache \
+    curl \
+    bash \
+    jq \
+    yq \
+    figlet \
+    unzip \
+    zip \
+    git \
+    shellcheck \
+    nano \
+    tar
 
 # Install languages, libraries and frameworks
-RUN apk add --update nodejs npm python3 py3-pip
+RUN apk add --update \
+  nodejs \
+  npm \
+  python3 \
+  py3-pip
 
 # Install golang
 COPY --from=golang:alpine3.17 /usr/local/go/ /usr/local/go/
@@ -33,10 +50,6 @@ RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://gi
   && chmod +x /usr/bin/terraform-docs
 
 RUN rm -rf /var/cache/apk/*
-
-# Install checkov
-RUN export checkovrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/bridgecrewio/checkov/releases/latest | awk -F / '{print substr($NF,1);}')" \
-  && pip install checkov==${checkovrelease}
 
 # Install Packer https://github.com/hashicorp/packer()
 ARG packer_version=1.8.5
