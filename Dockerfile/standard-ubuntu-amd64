@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt update -yq &&
+RUN apt update -yq && \
   apt upgrade -yq && \
   apt install -yq --no-install-recommends --no-install-suggests \
     ca-certificates \
