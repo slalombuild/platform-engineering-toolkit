@@ -29,7 +29,15 @@ docker pull ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:latest
 
 | Standard | Full |
 | --- | --- |
-| `terraform`<br/> `atmos`<br/> `curl`<br/> `bash`<br/> `jq`<br/> `yq`<br/> `figlet`<br/> `unzip`<br/> `zip`<br/> `git`<br/> `shellcheck`<br/> `nano`<br/> | _everything in standard_<br/> `aws-azure-login`<br/> `node` and `npm`<br/> `python` and `pip`<br/> `go`<br/> `aws cli`<br/> `azure cli`<br/> `pwsh`<br/> |
+| `terraform`<br/> `atmos`<br/> `curl`<br/> `bash`<br/> `jq`<br/> `yq`<br/> `figlet`<br/> `unzip`<br/> `zip`<br/> `git`<br/> `shellcheck`<br/> `nano`<br/> | _everything in standard_<br/> `terraform-docs`<br/> `node` and `npm`<br/> `python` and `pip`<br/> `go`<br/> `aws cli`<br/> `azure cli`<br/> `pwsh`<br/> `aws-azure-login`<br/>|
+
+#### I'd like the image(s) to include x, can I add it?
+
+Sure, go ahead and submit a PR. Some considerations when adding a tool -
+- Should it be in Standard and/or Full?
+- Tools should be added to all versions of the base OS. I.e. if it's added to `full-alpine-amd64`, it should also be added to `full-ubuntu-amd64`.
+- If the tool significantly increases the image size, is it something we want in our toolkit, or something we'd run in a pipeline using an official image for the tool?
+- Standard is intended to be lightweight, mainly used in pipelines, and Full is intended for development environments
 
 #### Which versions do we use?
 
