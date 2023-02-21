@@ -41,7 +41,7 @@ RUN wget -nv ${packer_zip_url} \
 
 # Install hadolint (https://github.com/hadolint/hadolint)
 ARG hadolint_version=2.12.0
-RUN wget -nv https://github.com/hadolint/hadolint/releases/download/v${hadolint_version}/hadolint-Linux-arm64 \
+RUN wget -nv https://github.com/hadolint/hadolint/releases/download/v${hadolint_version}/hadolint-Linux-x86_64 \
   && mv hadolint-Linux-x86_64 /usr/local/bin/hadolint \
   && chmod 755 /usr/local/bin/hadolint
 
