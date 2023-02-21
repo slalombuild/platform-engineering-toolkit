@@ -1,4 +1,4 @@
-<!-- 
+<!--
 Some considerations when adding a tool -
 
 - Should it be in Standard and/or Full?
@@ -12,11 +12,10 @@ Some considerations when adding a tool -
 * Use bullet points to be concise and to the point.
 
 ## Why
-* Provide the justifications for the changes (e.g. business case). 
+* Provide the justifications for the changes (e.g. business case).
 * Describe why these changes were made (e.g. why do these commits fix the problem?)
 * Use bullet points to be concise and to the point.
 
 ## References
-* Link to any supporting github issues or helpful documentation to add some context (e.g. stackoverflow). 
+* Link to any supporting github issues or helpful documentation to add some context (e.g. stackoverflow).
 * Use `closes #123`, if this PR closes a GitHub issue `#123`
-

@@ -36,10 +36,6 @@ jobs:
           severity: "CRITICAL,HIGH"
           hide-progress: true
 
-      - uses: actions/checkout@v3
-      - name: Docker Image Size
-        run: docker inspect -f "{{ .Size }}" standard-alpine-amd64:${{ github.sha }} | numfmt --to=si
-
       - name: Publish to Registry
         id: publish-standard-alpine-amd64
         uses: elgohr/Publish-Docker-Github-Action@v5

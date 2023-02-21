@@ -21,6 +21,10 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache
 
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" standard-alpine-amd64:${{ github.sha }} | numfmt --to=si
+
   standard-ubuntu:
     name: standard-ubuntu-amd64
     runs-on: ubuntu-latest
@@ -29,6 +33,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build the Docker image
         run: docker build . --file Dockerfile/standard-ubuntu-amd64 --no-cache
+
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" standard-ubuntu-amd64:${{ github.sha }} | numfmt --to=si
 
   full-alpine:
     name: full-alpine-amd64
@@ -39,6 +47,10 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile/full-alpine-amd64 --no-cache
 
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" full-alpine-amd64:${{ github.sha }} | numfmt --to=si
+
   full-ubuntu:
     name: full-ubuntu-amd64
     runs-on: ubuntu-latest
@@ -47,3 +59,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build the Docker image
         run: docker build . --file Dockerfile/full-ubuntu-amd64 --no-cache
+
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" full-ubuntu-amd64:${{ github.sha }} | numfmt --to=si
