@@ -75,10 +75,6 @@ jobs:
       - name: Docker Image Size
         run: docker inspect -f "{{ .Size }}" standard-ubuntu-amd64:${{ github.sha }} | numfmt --to=si
 
-      - uses: actions/checkout@v3
-      - name: Docker Image Size
-        run: docker inspect -f "{{ .Size }}" standard-ubuntu-amd64:${{ github.sha }} | numfmt --to=si
-
       - name: Publish to Registry
         id: publish-standard-ubuntu-amd64
         uses: elgohr/Publish-Docker-Github-Action@v5
@@ -143,7 +139,7 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
-          hide-progress: true
+          hide-progress: trueocker inspect -f "{{ .Size }}" standard-ubuntu-amd64:${{ github.
           vuln-type: "os"
 
       - uses: actions/checkout@v3
