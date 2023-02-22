@@ -139,7 +139,7 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
-          hide-progress: trueocker inspect -f "{{ .Size }}" standard-ubuntu-amd64:${{ github.
+          hide-progress: true
           vuln-type: "os"
 
       - uses: actions/checkout@v3
