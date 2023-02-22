@@ -1,9 +1,28 @@
 FROM alpine:latest
 
-RUN apk update && apk upgrade && apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano tar
+RUN apk update && \
+  apk upgrade && \
+  apk add --update --no-cache \
+    curl \
+    bash \
+    jq \
+    yq \
+    figlet \
+    unzip \
+    zip \
+    git \
+    shellcheck \
+    nano \
+    tar && \
+    rm -rf /var/cache/apk/*
 
 # Install languages, libraries and frameworks
-RUN apk add --update nodejs npm python3 py3-pip
+RUN apk add --update \
+  nodejs \
+  npm \
+  python3 \
+  py3-pip && \
+  rm -rf /var/cache/apk/*
 
 # Install golang
 COPY --from=golang:alpine3.17 /usr/local/go/ /usr/local/go/
@@ -32,4 +51,21 @@ RUN export tfdocsrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://gi
   && rm terraform-docs-v${tfdocsrelease}-linux-amd64.tar.gz \
   && chmod +x /usr/bin/terraform-docs
 
-RUN rm -rf /var/cache/apk/*
+# Install Packer https://github.com/hashicorp/packer()
+ARG packer_version=1.8.5
+ARG packer_zip_url=https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
+RUN wget -nv ${packer_zip_url} \
+  && unzip -d /usr/bin packer_${packer_version}_linux_amd64.zip \
+  && rm packer_${packer_version}_linux_amd64.zip
+
+# Install hadolint (https://github.com/hadolint/hadolint)
+ARG hadolint_version=2.12.0
+RUN wget -nv https://github.com/hadolint/hadolint/releases/download/v${hadolint_version}/hadolint-Linux-x86_64 \
+  && mv hadolint-Linux-x86_64 /usr/local/bin/hadolint \
+  && chmod 755 /usr/local/bin/hadolint
+
+# Install TFLint (https://github.com/terraform-linters/tflint)
+ARG tflint_version=0.45.0
+RUN wget -nv https://github.com/terraform-linters/tflint/releases/download/v${tflint_version}/tflint_linux_amd64.zip \
+  && unzip -d /usr/local/bin tflint_linux_amd64.zip \
+  && rm tflint_linux_amd64.zip
