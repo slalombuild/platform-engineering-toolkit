@@ -1,4 +1,7 @@
-# platform-engineering-toolkit
+<h1 align="center"><img src="docker.png" width="128" height="128" alt="Platform Engineering Toolkit"/><br/>Platform Engineering Toolkit</h1>
+
+<!--[![License MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/slalombuild/platform-engineering-toolkit)](#users-and-community)-->
 
 We are the **Slalom Build Platform Engineering** capability, and these are our container images with the tools we use for building, maintaining and securing infrastructure as code.
 
@@ -54,11 +57,3 @@ We offer two options (currently); Alpine (latest) and Ubuntu (latest).
 ### Contributions
 
 If you'd like a tool added to the images, a different base OS, or a different architecture, please submit a PR. For bugs/security issues, please create a new issue and follow the instructions. Thanks.
-
-### License
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
