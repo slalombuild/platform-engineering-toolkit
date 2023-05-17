@@ -29,3 +29,7 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_amd64 \
   && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
   && chmod +x /usr/bin/atmos
+
+# Install tfsec (https://github.com/aquasecurity/tfsec)
+RUN curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh
+RUN export tfsecrelease="$(tfsec --version)"

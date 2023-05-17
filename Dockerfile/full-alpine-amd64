@@ -69,3 +69,7 @@ ARG tflint_version=0.45.0
 RUN wget -nv https://github.com/terraform-linters/tflint/releases/download/v${tflint_version}/tflint_linux_amd64.zip \
   && unzip -d /usr/local/bin tflint_linux_amd64.zip \
   && rm tflint_linux_amd64.zip
+
+# Install tfsec (https://github.com/aquasecurity/tfsec)
+RUN curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh
+RUN export tfsecrelease="$(tfsec --version)"
