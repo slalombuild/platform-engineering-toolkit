@@ -32,5 +32,5 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && chmod +x /usr/bin/atmos
 
 # Install tfsec (https://github.com/aquasecurity/tfsec)
-RUN curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh
+RUN curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 RUN export tfsecrelease="$(tfsec --version)"
