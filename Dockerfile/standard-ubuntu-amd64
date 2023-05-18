@@ -3,18 +3,18 @@ FROM ubuntu:latest
 RUN apt update -yq && \
   apt upgrade -yq && \
   apt install -yq --no-install-recommends --no-install-suggests \
-    ca-certificates \
-    wget \
-    curl \
-    bash \
-    jq \
-    figlet \
-    unzip \
-    zip \
-    git \
-    shellcheck \
-    nano && \
-    rm -rf /var/lib/apt/lists/*
+  ca-certificates \
+  wget \
+  curl \
+  bash \
+  jq \
+  figlet \
+  unzip \
+  zip \
+  git \
+  shellcheck \
+  nano && \
+  rm -rf /var/lib/apt/lists/*
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
@@ -32,7 +32,9 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && chmod +x /usr/bin/atmos
 
 # Install tfsec (https://github.com/aquasecurity/tfsec)
-RUN export tfsecrelease="$(curl --silent "https://api.github.com/repos/aquasecurity/tfsec/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')" 
-RUN wget https://github.com/aquasecurity/tfsec/releases/download/${tfsecrelease}/tfsec-linux-amd64
-RUN mv tfsec-linux-amd64 /usr/bin/tfsec && chmod +x /usr/bin/tfsec
-RUN tfsec --version
+RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/aquasecurity/tfsec/releases/latest" | awk -F / '{print substr($NF,1);}')" \
+  && echo "Installing tfsec v${tfsecrelease}" \
+  && wget https://github.com/aquasecurity/tfsec/releases/download/${tfsecrelease}/tfsec-linux-amd64 \
+  && mv tfsec-linux-amd64 /usr/bin/tfsec \
+  && chmod +x /usr/bin/tfsec
+
