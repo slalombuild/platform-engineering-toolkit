@@ -3,17 +3,17 @@ FROM alpine:latest
 RUN apk update && \
   apk upgrade && \
   apk add --update --no-cache \
-    curl \
-    bash \
-    jq \
-    yq \
-    figlet \
-    unzip \
-    zip \
-    git \
-    shellcheck \
-    nano && \
-    rm -rf /var/cache/apk/*
+  curl \
+  bash \
+  jq \
+  yq \
+  figlet \
+  unzip \
+  zip \
+  git \
+  shellcheck \
+  nano && \
+  rm -rf /var/cache/apk/*
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
@@ -29,3 +29,11 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_amd64 \
   && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
   && chmod +x /usr/bin/atmos
+
+# Install tfsec (https://github.com/aquasecurity/tfsec)
+RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/aquasecurity/tfsec/releases/latest" | awk -F / '{print substr($NF,1);}')" \
+  && echo "Installing tfsec v${tfsecrelease}" \
+  && wget https://github.com/aquasecurity/tfsec/releases/download/${tfsecrelease}/tfsec-linux-amd64 \
+  && mv tfsec-linux-amd64 /usr/bin/tfsec \
+  && chmod +x /usr/bin/tfsec
+
