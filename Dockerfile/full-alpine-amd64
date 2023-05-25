@@ -64,16 +64,19 @@ RUN wget -nv https://github.com/hadolint/hadolint/releases/download/v${hadolint_
   && mv hadolint-Linux-x86_64 /usr/local/bin/hadolint \
   && chmod 755 /usr/local/bin/hadolint
 
-# Install TFLint (https://github.com/terraform-linters/tflint)
-ARG tflint_version=0.45.0
-RUN wget -nv https://github.com/terraform-linters/tflint/releases/download/v${tflint_version}/tflint_linux_amd64.zip \
-  && unzip -d /usr/local/bin tflint_linux_amd64.zip \
-  && rm tflint_linux_amd64.zip
+# Install tflint (https://github.com/terraform-linters/tflint)
+RUN export tflintrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/terraform-linters/tflint/releases/latest" | awk -F / '{print substr($NF,2);}')" \
+  && echo "Installing tflint v${tflintrelease}" \
+  && wget https://github.com/terraform-linters/tflint/releases/download/v${tflintrelease}/tflint_linux_amd64.zip \
+  && unzip tflint_linux_amd64.zip \
+  && mv tflint /usr/bin/tflint \
+  && chmod +x /usr/bin/tflint
 
 # Install tfsec (https://github.com/aquasecurity/tfsec)
-RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/aquasecurity/tfsec/releases/latest" | awk -F / '{print substr($NF,1);}')" \
+RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/aquasecurity/tfsec/releases/latest" | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing tfsec v${tfsecrelease}" \
-  && wget https://github.com/aquasecurity/tfsec/releases/download/${tfsecrelease}/tfsec-linux-amd64 \
+  && wget https://github.com/aquasecurity/tfsec/releases/download/v${tfsecrelease}/tfsec-linux-amd64 \
   && mv tfsec-linux-amd64 /usr/bin/tfsec \
   && chmod +x /usr/bin/tfsec
+
 
