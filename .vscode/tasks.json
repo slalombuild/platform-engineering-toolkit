@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "command": "Chrome",
+    "osx": {
+        "command": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    },
+    "args": [
+        "${file}"
+    ],
+    "problemMatchers": []
+}
