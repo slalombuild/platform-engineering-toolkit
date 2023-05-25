@@ -32,7 +32,7 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
 
 # Install tflint (https://github.com/terraform-linters/tflint)
 RUN export tflintrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/terraform-linters/tflint/releases/latest" | awk -F / '{print substr($NF,2);}')" \
-  && echo "Installing tflint v${tfsecrelease}" \
+  && echo "Installing tflint v${tflintrelease}" \
   && wget https://github.com/terraform-linters/tflint/releases/download/v${tflintrelease}/tflint_linux_amd64.zip \
   && unzip tflint_linux_amd64.zip \
   && mv tflint /usr/bin/tflint \
