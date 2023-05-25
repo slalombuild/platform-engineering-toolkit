@@ -31,10 +31,18 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && mv atmos_${atmosrelease}_linux_amd64 /usr/bin/atmos \
   && chmod +x /usr/bin/atmos
 
+# Install tflint (https://github.com/terraform-linters/tflint)
+RUN export tflintrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/terraform-linters/tflint/releases/latest" | awk -F / '{print substr($NF,2);}')" \
+  && echo "Installing tflint v${tfsecrelease}" \
+  && wget https://github.com/terraform-linters/tflint/releases/download/v${tflintrelease}/tflint_linux_amd64.zip \
+  && unzip tflint_linux_amd64.zip \
+  && mv tflint /usr/bin/tflint \
+  && chmod +x /usr/bin/tflint
+
 # Install tfsec (https://github.com/aquasecurity/tfsec)
-RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/aquasecurity/tfsec/releases/latest" | awk -F / '{print substr($NF,1);}')" \
+RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://github.com/aquasecurity/tfsec/releases/latest" | awk -F / '{print substr($NF,2);}')" \
   && echo "Installing tfsec v${tfsecrelease}" \
-  && wget https://github.com/aquasecurity/tfsec/releases/download/${tfsecrelease}/tfsec-linux-amd64 \
+  && wget https://github.com/aquasecurity/tfsec/releases/download/v${tfsecrelease}/tfsec-linux-amd64 \
   && mv tfsec-linux-amd64 /usr/bin/tfsec \
   && chmod +x /usr/bin/tfsec
 
