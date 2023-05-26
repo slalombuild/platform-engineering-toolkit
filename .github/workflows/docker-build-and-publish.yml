@@ -160,18 +160,15 @@ jobs:
           dockerfile: Dockerfile/full-ubuntu-amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
-  release:
-    name: release
-    if: ${{ success() }}
+  update_release_draft:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
+      - uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ env.IMAGE_TAG }}
-          draft: false
-          prerelease: false
+          publish: true
+          version: "${{ env.IMAGE_TAG }}"
