@@ -160,7 +160,7 @@ jobs:
           dockerfile: Dockerfile/full-ubuntu-amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
-  update_release_draft:
+  update-release-draft:
     permissions:
       contents: write
       pull-requests: write
