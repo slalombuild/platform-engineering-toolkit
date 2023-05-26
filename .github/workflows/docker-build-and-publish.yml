@@ -174,3 +174,4 @@ jobs:
         with:
           publish: true
           version: "${{ env.IMAGE_TAG }}"
+          tag: "latest,${{ env.IMAGE_TAG }}"
