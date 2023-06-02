@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache -t standard-alpine-amd64:${{ github.sha }}
+        run: docker build . --file images/standard-alpine-amd64/Dockerfile --no-cache -t standard-alpine-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/standard-ubuntu-amd64 --no-cache -t standard-ubuntu-amd64:${{ github.sha }}
+        run: docker build . --file images/standard-ubuntu-amd64/Dockerfile --no-cache -t standard-ubuntu-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -97,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/full-alpine-amd64 --no-cache -t full-alpine-amd64:${{ github.sha }}
+        run: docker build . --file images/full-alpine-amd64/Dockerfile --no-cache -t full-alpine-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -132,7 +132,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/full-ubuntu-amd64 --no-cache -t full-ubuntu-amd64:${{ github.sha }}
+        run: docker build . --file images/full-ubuntu-amd64/Dockerfile --no-cache -t full-ubuntu-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master

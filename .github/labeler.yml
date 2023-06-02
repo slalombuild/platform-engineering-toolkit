@@ -1,5 +1,6 @@
 docker:
-  - "Dockerfile/*"
+  - "images/*"
+  - ".github/workflows/docker*"
 
 documentation:
   - "**/*.md"
