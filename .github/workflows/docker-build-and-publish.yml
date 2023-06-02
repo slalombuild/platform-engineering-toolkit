@@ -5,7 +5,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "Dockerfile/**"
+      - "images/**"
   schedule:
     - cron: "0 2 * * 0" # Weekly on Sundays at 02:00
 
@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/standard-alpine-amd64 --no-cache -t standard-alpine-amd64:${{ github.sha }}
+        run: docker build . --file images/standard-alpine-amd64/Dockerfile --no-cache -t standard-alpine-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -51,7 +51,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
-          dockerfile: Dockerfile/standard-alpine-amd64
+          dockerfile: images/standard-alpine-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   standard-ubuntu:
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/standard-ubuntu-amd64 --no-cache -t standard-ubuntu-amd64:${{ github.sha }}
+        run: docker build . --file images/standard-ubuntu-amd64/Dockerfile --no-cache -t standard-ubuntu-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -87,7 +87,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
-          dockerfile: Dockerfile/standard-ubuntu-amd64
+          dockerfile: images/standard-ubuntu-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   full-alpine:
@@ -97,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/full-alpine-amd64 --no-cache -t full-alpine-amd64:${{ github.sha }}
+        run: docker build . --file images/full-alpine-amd64/Dockerfile --no-cache -t full-alpine-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -122,7 +122,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
-          dockerfile: Dockerfile/full-alpine-amd64
+          dockerfile: images/full-alpine-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   full-ubuntu:
@@ -132,7 +132,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile/full-ubuntu-amd64 --no-cache -t full-ubuntu-amd64:${{ github.sha }}
+        run: docker build . --file images/full-ubuntu-amd64/Dockerfile --no-cache -t full-ubuntu-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -157,5 +157,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
-          dockerfile: Dockerfile/full-ubuntu-amd64
+          dockerfile: images/full-ubuntu-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
