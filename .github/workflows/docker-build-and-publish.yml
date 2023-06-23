@@ -19,7 +19,7 @@ env:
 
 jobs:
   standard-alpine:
-    name: Build and publish standard-alpine-amd64
+    name: Build standard-alpine-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -52,10 +52,11 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-alpine-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   standard-ubuntu:
-    name: standard-ubuntu-amd64
+    name: Build standard-ubuntu-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -88,10 +89,11 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-ubuntu-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   full-alpine:
-    name: full-alpine-amd64
+    name: Build full-alpine-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -123,10 +125,11 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-alpine-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   full-ubuntu:
-    name: full-ubuntu-amd64
+    name: Build full-ubuntu-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -158,6 +161,7 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-ubuntu-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   test-standard-alpine:
