@@ -54,8 +54,11 @@ jobs:
           dockerfile: images/standard-alpine-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
 
-      - uses: standard-alpine-amd64:${{ github.sha }}
-      - name: Test image
+  tests:
+    name: Test standard-alpine-amd64
+    runs-on: standard-alpine-amd64:${{ github.sha }}
+    steps:
+      - name: Tests
         run: |
           terraform version
           atmos version
