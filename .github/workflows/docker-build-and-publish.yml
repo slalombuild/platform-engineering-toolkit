@@ -168,7 +168,7 @@ jobs:
     name: Test standard-alpine-amd64
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/slalombuild/standard-alpine-amd64:1.0.${{ github.run_number }}
+      image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64 :1.0.${{ github.run_number }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -183,15 +183,53 @@ jobs:
           tfsec --version
           opa version
 
+  test-full-alpine:
+    name: Test full-alpine-amd64
+    runs-on: alpine-latest
+    container:
+      image: ghcr.io/slalombuild/pe-toolkit-full-alpine-amd64:1.0.${{ github.run_number }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    needs: full-alpine
+    if: ${{ success() }}
+    steps:
+      - name: Run each tool
+        run: |
+          terraform version
+          atmos version
+          tflint --version
+          tfsec --version
+          opa version
+
   test-standard-ubuntu:
     name: Test standard-ubuntu-amd64
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/slalombuild/standard-ubuntu-amd64:1.0.${{ github.run_number }}
+      image: ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:1.0.${{ github.run_number }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     needs: standard-ubuntu
+    if: ${{ success() }}
+    steps:
+      - name: Run each tool
+        run: |
+          terraform version
+          atmos version
+          tflint --version
+          tfsec --version
+          opa version
+
+  test-full-ubuntu:
+    name: Test full-ubuntu-amd64
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/slalombuild/pe-toolkit-full-ubuntu-amd64:1.0.${{ github.run_number }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    needs: full-ubuntu
     if: ${{ success() }}
     steps:
       - name: Run each tool
