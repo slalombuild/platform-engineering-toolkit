@@ -56,7 +56,7 @@ jobs:
 
   tests:
     name: Test standard-alpine-amd64
-    runs-on: ghcr.io/slalombuild/standard-alpine-amd64:${{ github.sha }}
+    runs-on: standard-alpine-amd64:${{ env.IMAGE_TAG }}
     needs: standard-alpine
     if: ${{ success() }}
     steps:
