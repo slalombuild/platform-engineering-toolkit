@@ -3,7 +3,7 @@ name: Docker Build and Publish
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    # branches: ["main"]
     paths:
       - "images/**"
   schedule:
@@ -53,6 +53,15 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-alpine-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
+
+      - uses: standard-alpine-amd64:${{ github.sha }}
+      - name: Test image
+        run: |
+          terraform version
+          atmos version
+          tflint --version
+          tfsec --version
+          opa version
 
   standard-ubuntu:
     name: standard-ubuntu-amd64
