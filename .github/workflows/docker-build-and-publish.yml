@@ -54,22 +54,6 @@ jobs:
           dockerfile: images/standard-alpine-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
 
-  tests:
-    name: Test standard-alpine-amd64
-    runs-on: ubuntu-latest
-    container:
-      image: standard-alpine-amd64:${{ github.sha }}
-    needs: standard-alpine
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          terraform version
-          atmos version
-          tflint --version
-          tfsec --version
-          opa version
-
   standard-ubuntu:
     name: standard-ubuntu-amd64
     runs-on: ubuntu-latest
@@ -175,3 +159,22 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-ubuntu-amd64/Dockerfile
           tags: "latest,${{ env.IMAGE_TAG }}"
+
+  tests:
+    name: Test standard-alpine-amd64
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/slalombuild/standard-alpine-amd64:${{ github.sha }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    needs: standard-alpine
+    if: ${{ success() }}
+    steps:
+      - name: Run each tool
+        run: |
+          terraform version
+          atmos version
+          tflint --version
+          tfsec --version
+          opa version
