@@ -56,7 +56,9 @@ jobs:
 
   tests:
     name: Test standard-alpine-amd64
-    runs-on: standard-alpine-amd64:${{ env.IMAGE_TAG }}
+    runs-on: ubuntu-latest
+    container:
+      image: standard-alpine-amd64:${{ github.sha }}
     needs: standard-alpine
     if: ${{ success() }}
     steps:
