@@ -177,11 +177,11 @@ jobs:
     steps:
       - name: Run each tool
         run: |
-          terraform version
-          atmos version
-          tflint --version
-          tfsec --version
-          opa version
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
 
   test-full-alpine:
     name: Test full-alpine-amd64
@@ -196,11 +196,11 @@ jobs:
     steps:
       - name: Run each tool
         run: |
-          terraform version
-          atmos version
-          tflint --version
-          tfsec --version
-          opa version
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
 
   test-standard-ubuntu:
     name: Test standard-ubuntu-amd64
@@ -215,11 +215,11 @@ jobs:
     steps:
       - name: Run each tool
         run: |
-          terraform version
-          atmos version
-          tflint --version
-          tfsec --version
-          opa version
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
 
   test-full-ubuntu:
     name: Test full-ubuntu-amd64
@@ -234,8 +234,8 @@ jobs:
     steps:
       - name: Run each tool
         run: |
-          terraform version
-          atmos version
-          tflint --version
-          tfsec --version
-          opa version
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
