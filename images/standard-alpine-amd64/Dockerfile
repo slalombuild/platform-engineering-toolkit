@@ -47,6 +47,6 @@ RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://gi
   && mv tfsec-linux-amd64 /usr/local/bin/tfsec
 
 # Install Open Policy Agent (https://openpolicyagent.org)
-RUN curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64 \
+RUN curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static \
   && chmod +x opa \
   && mv opa /usr/local/bin/opa
