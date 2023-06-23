@@ -168,7 +168,7 @@ jobs:
     name: Test standard-alpine-amd64
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64 :1.0.${{ github.run_number }}
+      image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64:1.0.${{ github.run_number }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
