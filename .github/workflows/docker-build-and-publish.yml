@@ -57,6 +57,7 @@ jobs:
   tests:
     name: Test standard-alpine-amd64
     runs-on: standard-alpine-amd64:${{ github.sha }}
+    needs: standard-alpine
     steps:
       - name: Tests
         run: |
