@@ -19,7 +19,7 @@ env:
 
 jobs:
   standard-alpine:
-    name: standard-alpine-amd64
+    name: Build and publish standard-alpine-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -56,10 +56,11 @@ jobs:
 
   tests:
     name: Test standard-alpine-amd64
-    runs-on: standard-alpine-amd64:1.0.${{ github.run_number }}
+    runs-on: standard-alpine-amd64:${{ github.sha }}
     needs: standard-alpine
+    if: ${{ success() }}
     steps:
-      - name: Tests
+      - name: Run each tool
         run: |
           terraform version
           atmos version
