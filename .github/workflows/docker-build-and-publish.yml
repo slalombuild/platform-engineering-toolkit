@@ -3,7 +3,7 @@ name: Docker Build and Publish
 on:
   workflow_dispatch:
   push:
-    # branches: ["main"]
+    branches: ["main"]
     paths:
       - "images/**"
   schedule:
