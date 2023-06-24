@@ -19,7 +19,7 @@ env:
 
 jobs:
   standard-alpine:
-    name: standard-alpine-amd64
+    name: Build standard-alpine-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -52,10 +52,11 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-alpine-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   standard-ubuntu:
-    name: standard-ubuntu-amd64
+    name: Build standard-ubuntu-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -88,10 +89,11 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-ubuntu-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   full-alpine:
-    name: full-alpine-amd64
+    name: Build full-alpine-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -123,10 +125,11 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-alpine-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
   full-ubuntu:
-    name: full-ubuntu-amd64
+    name: Build full-ubuntu-amd64
     runs-on: ubuntu-latest
 
     steps:
@@ -158,4 +161,81 @@ jobs:
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-ubuntu-amd64/Dockerfile
+          platforms: linux/amd64
           tags: "latest,${{ env.IMAGE_TAG }}"
+
+  test-standard-alpine:
+    name: Test standard-alpine-amd64
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64:1.0.${{ github.run_number }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    needs: standard-alpine
+    if: ${{ success() }}
+    steps:
+      - name: Run each tool
+        run: |
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
+
+  test-full-alpine:
+    name: Test full-alpine-amd64
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/slalombuild/pe-toolkit-full-alpine-amd64:1.0.${{ github.run_number }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    needs: full-alpine
+    if: ${{ success() }}
+    steps:
+      - name: Run each tool
+        run: |
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
+
+  test-standard-ubuntu:
+    name: Test standard-ubuntu-amd64
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:1.0.${{ github.run_number }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    needs: standard-ubuntu
+    if: ${{ success() }}
+    steps:
+      - name: Run each tool
+        run: |
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
+
+  test-full-ubuntu:
+    name: Test full-ubuntu-amd64
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/slalombuild/pe-toolkit-full-ubuntu-amd64:1.0.${{ github.run_number }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    needs: full-ubuntu
+    if: ${{ success() }}
+    steps:
+      - name: Run each tool
+        run: |
+          figlet terraform && terraform version
+          figlet atmos && atmos version
+          figlet tflint && tflint --version
+          figlet tfsec && tfsec --version
+          figlet opa && opa version
