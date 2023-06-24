@@ -42,7 +42,20 @@ Sure, go ahead and submit a PR. Some considerations when adding a tool -
 - If the tool significantly increases the image size, is it something we want in our toolkit, or something we'd run in a pipeline using an official image for the tool?
 - Standard is intended to be lightweight, mainly used in pipelines, and Full is intended for development environments
 
-#### Which versions do we use?
+#### I've made some changes and they don't work, how do I debug the problem?
+
+1. Attempt to build the problematic image. Change to the relevant folder containing a `Dockerfile` under `images` and run 
+   ```bash
+   docker build -t test:latest .   
+   ```
+2. View the output for any errors.
+3. If the container image builds successfully, start a shell in the container using 
+   ```bash
+   docker run --rm -it --entrypoint /bin/bash test
+   ``` 
+   and perform further debugging steps.
+
+#### Which versions of binaries do we use?
 
 We use the latest version of each tool at the time of building of the image.
 
