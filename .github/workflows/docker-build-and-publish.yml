@@ -110,7 +110,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "standard-ubuntu-amd64:${{ github.sha }}"
+          image-ref: "standard-ubuntu-arm64:${{ github.sha }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
