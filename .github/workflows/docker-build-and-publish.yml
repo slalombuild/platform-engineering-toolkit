@@ -345,20 +345,20 @@ jobs:
     strategy:
       matrix:
         arch:
-          - docker: "amd64"
-          - docker: "arm64"
+          - id: "amd64"
+          - id: "arm64"
         distro:
-          - container: "ubuntu"
-          - container: "alpine"
+          - id: "ubuntu"
+          - id: "alpine"
         type:
-          - size: "full"
-          - size: "standard"
+          - name: "full"
+          - name: "standard"
 
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: "linux/${{ matrix.arch }}"
+          platforms: "linux/${{ matrix.arch.id }}"
 
       - name: Run binaries in docker
         run: |
@@ -366,8 +366,8 @@ jobs:
             --rm \
             -v $(pwd):/${{ github.workspace }} \
             -w ${{ github.workspace }} \
-            --platform linux/${{ matrix.arch }} \
-            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type }}-${{ matrix.distro }}-${{ matrix.arch }}:1.0.${{ github.run_number }} \
+            --platform linux/${{ matrix.arch.id }} \
+            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}:1.0.${{ github.run_number }} \
             figlet terraform && terraform version \
             figlet atmos && atmos version \
             figlet tflint && tflint --version \
