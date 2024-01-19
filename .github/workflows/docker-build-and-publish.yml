@@ -65,7 +65,7 @@ jobs:
         run: |
           docker buildx install
           docker buildx create --use
-          docker build . --platform linux/arm64 --file images/standard-ubuntu-arm64/Dockerfile --no-cache -t standard-ubuntu-arm64:${{ github.sha }}
+          docker build . --platform linux/arm64 --load --file images/standard-ubuntu-arm64/Dockerfile --no-cache -t standard-ubuntu-arm64:${{ github.sha }}
 
       # - name: Run Trivy vulnerability scanner
       #   uses: aquasecurity/trivy-action@master
