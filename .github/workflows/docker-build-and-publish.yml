@@ -328,7 +328,18 @@ jobs:
   #   | |  __/\__ \ |_\__ \
   #   |_|\___||___/\__|___/
 
-  package:
+  test:
+    needs:
+      [
+        standard-alpine-amd64,
+        standard-alpine-arm64,
+        standard-ubuntu-amd64,
+        standard-ubuntu-arm64,
+        full-alpine-amd64,
+        full-alpine-arm64,
+        full-ubuntu-amd64,
+        full-ubuntu-arm64,
+      ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -344,7 +355,8 @@ jobs:
 
     steps:
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
+        if: ${{ success() }}
         with:
           platforms: ${{ matrix.arch }}
 
