@@ -328,154 +328,188 @@ jobs:
   #   | |  __/\__ \ |_\__ \
   #   |_|\___||___/\__|___/
 
-  test-standard-alpine-amd64:
-    name: Test standard-alpine-amd64
+  package:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: standard-alpine-amd64
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+    strategy:
+      matrix:
+        arch:
+          - docker: amd64
+          - docker: arm64
+        distro:
+          - container: "ubuntu"
+          - container: "alpine"
+        type:
+          - size: "full"
+          - size: "standard"
 
-  test-standard-alpine-arm64:
-    name: Test standard-alpine-arm64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-arm64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: standard-alpine-arm64
-    if: ${{ success() }}
     steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: ${{ matrix.arch }}
 
-  test-full-alpine-amd64:
-    name: Test full-alpine-amd64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-full-alpine-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: full-alpine-amd64
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
+      - name: Run binaries in docker
         run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+          docker run \
+            --rm \
+            -v $(pwd):/${{ github.workspace }} \
+            -w ${{ github.workspace }} \
+            --platform linux/${{ matrix.arch }} \
+            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type }}-${{ matrix.distro }}-${{ matrix.arch }}:1.0.${{ github.run_number }} \
+            figlet terraform && terraform version \
+            figlet atmos && atmos version \
+            figlet tflint && tflint --version \
+            figlet tfsec && tfsec --version \
+            figlet opa && opa version \
 
-  test-full-alpine-arm64:
-    name: Test full-alpine-arm64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-full-alpine-arm64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: full-alpine-arm64
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+  # test-standard-alpine-amd64:
+  #   name: Test standard-alpine-amd64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: standard-alpine-amd64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
 
-  test-standard-ubuntu-amd64:
-    name: Test standard-ubuntu-amd64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: standard-ubuntu-amd64
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+  # test-standard-alpine-arm64:
+  #   name: Test standard-alpine-arm64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-arm64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: standard-alpine-arm64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
 
-  test-standard-ubuntu-arm64:
-    name: Test standard-ubuntu-arm64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-arm64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: standard-ubuntu-arm64
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+  # test-full-alpine-amd64:
+  #   name: Test full-alpine-amd64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-full-alpine-amd64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: full-alpine-amd64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
 
-  test-full-ubuntu-amd64:
-    name: Test full-ubuntu-amd64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-full-ubuntu-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: full-ubuntu-amd64
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+  # test-full-alpine-arm64:
+  #   name: Test full-alpine-arm64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-full-alpine-arm64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: full-alpine-arm64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
 
-  test-full-ubuntu-arm64:
-    name: Test full-ubuntu-arm64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-full-ubuntu-arm64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: full-ubuntu-arm64
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+  # test-standard-ubuntu-amd64:
+  #   name: Test standard-ubuntu-amd64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: standard-ubuntu-amd64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
+
+  # test-standard-ubuntu-arm64:
+  #   name: Test standard-ubuntu-arm64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-arm64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: standard-ubuntu-arm64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
+
+  # test-full-ubuntu-amd64:
+  #   name: Test full-ubuntu-amd64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-full-ubuntu-amd64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: full-ubuntu-amd64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
+
+  # test-full-ubuntu-arm64:
+  #   name: Test full-ubuntu-arm64
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/slalombuild/pe-toolkit-full-ubuntu-arm64:1.0.${{ github.run_number }}
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   needs: full-ubuntu-arm64
+  #   if: ${{ success() }}
+  #   steps:
+  #     - name: Run each tool
+  #       run: |
+  #         figlet terraform && terraform version
+  #         figlet atmos && atmos version
+  #         figlet tflint && tflint --version
+  #         figlet tfsec && tfsec --version
+  #         figlet opa && opa version
