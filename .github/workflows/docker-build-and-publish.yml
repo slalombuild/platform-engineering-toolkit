@@ -345,8 +345,8 @@ jobs:
     strategy:
       matrix:
         arch:
-          - docker: "linux/amd64"
-          - docker: "linux/arm64"
+          - docker: "amd64"
+          - docker: "arm64"
         distro:
           - container: "ubuntu"
           - container: "alpine"
@@ -358,7 +358,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: ${{ matrix.arch }}
+          platforms: "linux/${{ matrix.arch }}"
 
       - name: Run binaries in docker
         run: |
