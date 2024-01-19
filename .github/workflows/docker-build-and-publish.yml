@@ -329,6 +329,7 @@ jobs:
   #   |_|\___||___/\__|___/
 
   test:
+    if: ${{ success() }}
     needs:
       [
         standard-alpine-amd64,
@@ -344,8 +345,8 @@ jobs:
     strategy:
       matrix:
         arch:
-          - docker: amd64
-          - docker: arm64
+          - docker: "linux/amd64"
+          - docker: "linux/arm64"
         distro:
           - container: "ubuntu"
           - container: "alpine"
@@ -356,7 +357,6 @@ jobs:
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        if: ${{ success() }}
         with:
           platforms: ${{ matrix.arch }}
 
