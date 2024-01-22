@@ -14,9 +14,6 @@ permissions:
   packages: write
   id-token: write
 
-#standard-alpine-amd64
-pe-toolkit-standard-alpine-amd64
-
 env:
   IMAGE_TAG: 1.0.${{ github.run_number }}
 
