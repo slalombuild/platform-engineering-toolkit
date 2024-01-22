@@ -368,7 +368,7 @@ jobs:
             -v $(pwd):/${{ github.workspace }} \
             -w ${{ github.workspace }} \
             --platform linux/${{ matrix.arch.id }} \
-            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}:1.0.${{ github.run_number }} \
+            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}:${{ github.sha }} \
             figlet terraform && terraform version \
             figlet atmos && atmos version \
             figlet tflint && tflint --version \
