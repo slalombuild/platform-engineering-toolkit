@@ -53,7 +53,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-alpine-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
   standard-alpine-arm64:
     name: Build standard-alpine-arm64
@@ -93,7 +93,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-alpine-arm64/Dockerfile
           platforms: linux/arm64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
 
   standard-ubuntu-arm64:
     name: Build standard-ubuntu-arm64
@@ -133,7 +133,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-ubuntu-arm64/Dockerfile
           platforms: linux/arm64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
 
   standard-ubuntu-amd64:
     name: Build standard-ubuntu-amd64
@@ -170,7 +170,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-ubuntu-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
   full-alpine-amd64:
     name: Build full-alpine-amd64
@@ -206,7 +206,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-alpine-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
   full-alpine-arm64:
     name: Build full-alpine-arm64
@@ -245,7 +245,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-alpine-arm64/Dockerfile
           platforms: linux/arm64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
 
   full-ubuntu-amd64:
     name: Build full-ubuntu-amd64
@@ -281,7 +281,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-ubuntu-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
   full-ubuntu-arm64:
     name: Build full-ubuntu-arm64
@@ -320,7 +320,7 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-ubuntu-arm64/Dockerfile
           platforms: linux/arm64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
 
   #  _____         _
   # |_   _|__  ___| |_ ___
@@ -368,12 +368,12 @@ jobs:
             -v $(pwd):/${{ github.workspace }} \
             -w ${{ github.workspace }} \
             --platform linux/${{ matrix.arch.id }} \
-            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}:${{ github.sha }} \
+            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}@sha256:${{ github.sha }} \
             figlet terraform && terraform version \
             figlet atmos && atmos version \
             figlet tflint && tflint --version \
             figlet tfsec && tfsec --version \
-            figlet opa && opa version \
+            figlet opa && opa version
 
   # test-standard-alpine-amd64:
   #   name: Test standard-alpine-amd64
