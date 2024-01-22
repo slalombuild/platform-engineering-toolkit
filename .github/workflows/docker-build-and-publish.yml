@@ -14,6 +14,9 @@ permissions:
   packages: write
   id-token: write
 
+#standard-alpine-amd64
+pe-toolkit-standard-alpine-amd64
+
 env:
   IMAGE_TAG: 1.0.${{ github.run_number }}
 
@@ -329,6 +332,7 @@ jobs:
   #   |_|\___||___/\__|___/
 
   test:
+    name: Test ${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}
     if: ${{ success() }}
     needs:
       [
