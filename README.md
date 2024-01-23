@@ -65,7 +65,7 @@ We offer two options (currently); Alpine (latest) and Ubuntu (latest).
 
 #### Which architectures do we support?
 
-`amd64`. If there's an architecture you'd like an image for, please submit a PR.
+`amd64` and `arm64`. If there's an architecture you'd like an image for, please submit a PR.
 
 ### Contributions
 

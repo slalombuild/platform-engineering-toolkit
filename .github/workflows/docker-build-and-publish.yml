@@ -18,7 +18,7 @@ env:
   IMAGE_TAG: 1.0.${{ github.run_number }}
 
 jobs:
-  standard-alpine:
+  standard-alpine-amd64:
     name: Build standard-alpine-amd64
     runs-on: ubuntu-latest
 
@@ -53,9 +53,89 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-alpine-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
-  standard-ubuntu:
+  standard-alpine-arm64:
+    name: Build standard-alpine-arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          docker buildx install
+          docker buildx create --use
+          docker build . --platform linux/arm64 --load --file images/standard-alpine-arm64/Dockerfile --no-cache -t standard-alpine-arm64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "standard-alpine-arm64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
+
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" standard-alpine-arm64:${{ github.sha }} | numfmt --to=si
+
+      - name: Publish to Registry
+        id: publish-standard-alpine-arm64
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-standard-alpine-arm64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: images/standard-alpine-arm64/Dockerfile
+          platforms: linux/arm64
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
+
+  standard-ubuntu-arm64:
+    name: Build standard-ubuntu-arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          docker buildx install
+          docker buildx create --use
+          docker build . --platform linux/arm64 --load --file images/standard-ubuntu-arm64/Dockerfile --no-cache -t standard-ubuntu-arm64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "standard-ubuntu-arm64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
+
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" standard-ubuntu-arm64:${{ github.sha }} | numfmt --to=si
+
+      - name: Publish to Registry
+        id: publish-standard-ubuntu-arm64
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-standard-ubuntu-arm64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: images/standard-ubuntu-arm64/Dockerfile
+          platforms: linux/arm64
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
+
+  standard-ubuntu-amd64:
     name: Build standard-ubuntu-amd64
     runs-on: ubuntu-latest
 
@@ -90,9 +170,9 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/standard-ubuntu-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
-  full-alpine:
+  full-alpine-amd64:
     name: Build full-alpine-amd64
     runs-on: ubuntu-latest
 
@@ -126,9 +206,48 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-alpine-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
-  full-ubuntu:
+  full-alpine-arm64:
+    name: Build full-alpine-arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          docker buildx install
+          docker buildx create --use
+          docker build . --platform linux/arm64 --load --file images/full-alpine-arm64/Dockerfile --no-cache -t full-alpine-arm64:${{ github.sha }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "full-alpine-arm64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
+
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" full-alpine-arm64:${{ github.sha }} | numfmt --to=si
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-full-alpine-arm64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: images/full-alpine-arm64/Dockerfile
+          platforms: linux/arm64
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
+
+  full-ubuntu-amd64:
     name: Build full-ubuntu-amd64
     runs-on: ubuntu-latest
 
@@ -162,80 +281,90 @@ jobs:
           buildoptions: "--compress --force-rm"
           dockerfile: images/full-ubuntu-amd64/Dockerfile
           platforms: linux/amd64
-          tags: "latest,${{ env.IMAGE_TAG }}"
+          tags: "latest,${{ env.IMAGE_TAG }},amd64"
 
-  test-standard-alpine:
-    name: Test standard-alpine-amd64
+  full-ubuntu-arm64:
+    name: Build full-ubuntu-arm64
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: standard-alpine
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
 
-  test-full-alpine:
-    name: Test full-alpine-amd64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-full-alpine-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: full-alpine
-    if: ${{ success() }}
     steps:
-      - name: Run each tool
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
         run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+          docker buildx install
+          docker buildx create --use
+          docker build . --platform linux/arm64 --load --file images/full-ubuntu-arm64/Dockerfile --no-cache -t full-ubuntu-arm64:${{ github.sha }}
 
-  test-standard-ubuntu:
-    name: Test standard-ubuntu-amd64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: standard-ubuntu
-    if: ${{ success() }}
-    steps:
-      - name: Run each tool
-        run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "full-ubuntu-arm64:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          hide-progress: true
+          vuln-type: "os"
 
-  test-full-ubuntu:
-    name: Test full-ubuntu-amd64
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/slalombuild/pe-toolkit-full-ubuntu-amd64:1.0.${{ github.run_number }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    needs: full-ubuntu
+      - uses: actions/checkout@v3
+      - name: Docker Image Size
+        run: docker inspect -f "{{ .Size }}" full-ubuntu-arm64:${{ github.sha }} | numfmt --to=si
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: SlalomBuild/pe-toolkit-full-ubuntu-arm64
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          buildoptions: "--compress --force-rm"
+          dockerfile: images/full-ubuntu-arm64/Dockerfile
+          platforms: linux/arm64
+          tags: "latest,${{ env.IMAGE_TAG }},arm64"
+
+  #  _____         _
+  # |_   _|__  ___| |_ ___
+  #   | |/ _ \/ __| __/ __|
+  #   | |  __/\__ \ |_\__ \
+  #   |_|\___||___/\__|___/
+
+  test:
+    name: Test ${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}
     if: ${{ success() }}
+    needs:
+      [
+        standard-alpine-amd64,
+        standard-alpine-arm64,
+        standard-ubuntu-amd64,
+        standard-ubuntu-arm64,
+        full-alpine-amd64,
+        full-alpine-arm64,
+        full-ubuntu-amd64,
+        full-ubuntu-arm64,
+      ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - id: "amd64"
+          - id: "arm64"
+        distro:
+          - id: "ubuntu"
+          - id: "alpine"
+        type:
+          - name: "full"
+          - name: "standard"
+
     steps:
-      - name: Run each tool
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: "linux/${{ matrix.arch.id }}"
+
+      - name: Run binaries in docker
         run: |
-          figlet terraform && terraform version
-          figlet atmos && atmos version
-          figlet tflint && tflint --version
-          figlet tfsec && tfsec --version
-          figlet opa && opa version
+          docker run \
+            --rm \
+            --platform linux/${{ matrix.arch.id }} \
+            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}:${{ env.IMAGE_TAG }} \
+            /bin/sh -c 'figlet terraform && terraform version && figlet atmos && atmos version && figlet tflint && tflint --version && figlet tfsec && tfsec --version && figlet opa && opa version'
