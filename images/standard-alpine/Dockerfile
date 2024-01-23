@@ -22,7 +22,7 @@ RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github
   && case ${TARGETPLATFORM} in \
   "linux/arm64")  ARCHITECTURE=arm64  ;; \
   *)              ARCHITECTURE=amd64   ;; \
-  esac && \
+  esac \
   && echo "Installing terraform v${tfrelease} (${ARCHITECTURE})" \
   && wget https://releases.hashicorp.com/terraform/${tfrelease}/terraform_${tfrelease}_linux_${ARCHITECTURE}.zip \
   && unzip terraform_${tfrelease}_linux_${ARCHITECTURE}.zip \
@@ -35,7 +35,7 @@ RUN export atmosrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://git
   && case ${TARGETPLATFORM} in \
   "linux/arm64")  ARCHITECTURE=arm64  ;; \
   *)              ARCHITECTURE=amd64   ;; \
-  esac && \
+  esac \
   && echo "Installing atmos v${atmosrelease} (${ARCHITECTURE})" \
   && wget https://github.com/cloudposse/atmos/releases/download/v${atmosrelease}/atmos_${atmosrelease}_linux_${ARCHITECTURE} \
   && chmod +x atmos_${atmosrelease}_linux_${ARCHITECTURE} \
@@ -46,7 +46,7 @@ RUN export tflintrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://g
   && case ${TARGETPLATFORM} in \
   "linux/arm64")  ARCHITECTURE=arm64  ;; \
   *)              ARCHITECTURE=amd64   ;; \
-  esac && \
+  esac \
   && echo "Installing tflint v${tflintrelease} (${ARCHITECTURE})" \
   && wget https://github.com/terraform-linters/tflint/releases/download/v${tflintrelease}/tflint_linux_${ARCHITECTURE}.zip \
   && unzip -d /usr/local/bin tflint_linux_${ARCHITECTURE}.zip \
@@ -58,7 +58,7 @@ RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://gi
   && case ${TARGETPLATFORM} in \
   "linux/arm64")  ARCHITECTURE=arm64  ;; \
   *)              ARCHITECTURE=amd64   ;; \
-  esac && \
+  esac \
   && echo "Installing tfsec v${tfsecrelease} (${ARCHITECTURE})" \
   && wget https://github.com/aquasecurity/tfsec/releases/download/v${tfsecrelease}/tfsec-linux-${ARCHITECTURE} \
   && chmod +x tfsec-linux-${ARCHITECTURE} \
@@ -68,8 +68,8 @@ RUN export tfsecrelease="$(curl -Ls -o /dev/null -w %{url_effective} "https://gi
 RUN case ${TARGETPLATFORM} in \
   "linux/arm64")  ARCHITECTURE=arm64  ;; \
   *)              ARCHITECTURE=amd64   ;; \
-  esac && \
+  esac \
   && echo "Installing opa (${ARCHITECTURE})" \
-  curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_${ARCHITECTURE}_static \
+  && curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_${ARCHITECTURE}_static \
   && chmod +x opa \
   && mv opa /usr/local/bin/opa
