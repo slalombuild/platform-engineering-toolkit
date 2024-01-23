@@ -73,10 +73,12 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: SlalomBuild/pe-toolkit-standard-alpine
+          dockerfile: images/standard-alpine/Dockerfile
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           buildoptions: "--compress --force-rm"
+          buildargs:
           platforms: linux/amd64,linux/arm64
           tags: "latest,${{ env.IMAGE_TAG }}"
 
