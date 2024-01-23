@@ -369,11 +369,7 @@ jobs:
             -w ${{ github.workspace }} \
             --platform linux/${{ matrix.arch.id }} \
             ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}:${{ env.IMAGE_TAG }} \
-            figlet terraform && terraform version \
-            figlet atmos && atmos version \
-            figlet tflint && tflint --version \
-            figlet tfsec && tfsec --version \
-            figlet opa && opa version
+            figlet terraform && terraform version && figlet atmos && atmos version && figlet tflint && tflint --version && figlet tfsec && tfsec --version && figlet opa && opa version
 
   # test-standard-alpine-amd64:
   #   name: Test standard-alpine-amd64
