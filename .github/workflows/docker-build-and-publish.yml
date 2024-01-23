@@ -18,8 +18,8 @@ env:
   IMAGE_TAG: 1.0.${{ github.run_number }}
 
 jobs:
-  standard-alpine:
-    name: Build standard-alpine
+  standard:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -94,6 +94,26 @@ jobs:
           buildoptions: "--compress --force-rm"
           platforms: linux/amd64,linux/arm64
           tags: "latest,${{ env.IMAGE_TAG }},ubuntu"
+
+  get-size:
+    name: Get image sizes
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - id: "amd64"
+          - id: "arm64"
+        distro:
+          - id: "ubuntu"
+          - id: "alpine"
+        type:
+          - name: "standard"
+
+    steps:
+      - name: docker inspect ${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}
+        run: |
+          docker inspect -f "{{ .Size }}" --platform linux/${{ matrix.arch.id }} ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}:${{ env.IMAGE_TAG }} | numfmt --to=si
 
   #     - name: Publish to Registry
   #       id: publish-standard-alpine-arm64
@@ -417,13 +437,3 @@ jobs:
   #           --platform linux/${{ matrix.arch.id }} \
   #           ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}:${{ env.IMAGE_TAG }} \
   #           /bin/sh -c 'figlet terraform && terraform version && figlet atmos && atmos version && figlet tflint && tflint --version && figlet tfsec && tfsec --version && figlet opa && opa version'
-
-  # update_latest_tag:
-  #   name: Update latest tag
-  #   if: ${{ success() }}
-  #   needs: [ test ]
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Update tags
-  #       uses:
