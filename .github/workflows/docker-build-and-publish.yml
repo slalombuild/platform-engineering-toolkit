@@ -46,7 +46,7 @@ jobs:
         id: publish-standard-alpine-amd64
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-standard-alpine-amd64
+          name: SlalomBuild/pe-toolkit-standard-alpine
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -86,7 +86,7 @@ jobs:
         id: publish-standard-alpine-arm64
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-standard-alpine-arm64
+          name: SlalomBuild/pe-toolkit-standard-alpine
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -126,7 +126,7 @@ jobs:
         id: publish-standard-ubuntu-arm64
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-standard-ubuntu-arm64
+          name: SlalomBuild/pe-toolkit-standard-ubuntu
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -163,7 +163,7 @@ jobs:
         id: publish-standard-ubuntu-amd64
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-standard-ubuntu-amd64
+          name: SlalomBuild/pe-toolkit-standard-ubuntu
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -199,7 +199,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-full-alpine-amd64
+          name: SlalomBuild/pe-toolkit-full-alpine
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -238,7 +238,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-full-alpine-arm64
+          name: SlalomBuild/pe-toolkit-full-alpine
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -274,7 +274,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-full-ubuntu-amd64
+          name: SlalomBuild/pe-toolkit-full-ubuntu
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -313,7 +313,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: SlalomBuild/pe-toolkit-full-ubuntu-arm64
+          name: SlalomBuild/pe-toolkit-full-ubuntu
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
@@ -366,5 +366,5 @@ jobs:
           docker run \
             --rm \
             --platform linux/${{ matrix.arch.id }} \
-            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}-${{ matrix.arch.id }}:${{ env.IMAGE_TAG }} \
+            ghcr.io/slalombuild/pe-toolkit-${{ matrix.type.name }}-${{ matrix.distro.id }}:${{ env.IMAGE_TAG }} \
             /bin/sh -c 'figlet terraform && terraform version && figlet atmos && atmos version && figlet tflint && tflint --version && figlet tfsec && tfsec --version && figlet opa && opa version'
