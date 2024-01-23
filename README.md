@@ -14,10 +14,17 @@ Images are updated weekly (at least), and more frequently when tooling updates o
 To use an image in your pipeline, pull from one of these URLs:
 
 ```bash
+# amd64
 ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64:latest
 ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:latest
 ghcr.io/slalombuild/pe-toolkit-full-alpine-amd64:latest
 ghcr.io/slalombuild/pe-toolkit-full-ubuntu-amd64:latest
+
+# arm64
+ghcr.io/slalombuild/pe-toolkit-standard-alpine-arm64:latest
+ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-arm64:latest
+ghcr.io/slalombuild/pe-toolkit-full-alpine-arm64:latest
+ghcr.io/slalombuild/pe-toolkit-full-ubuntu-arm64:latest
 ```
 (All images are listed [here](https://github.com/orgs/SlalomBuild/packages?repo_name=platform-engineering-toolkit))
 
