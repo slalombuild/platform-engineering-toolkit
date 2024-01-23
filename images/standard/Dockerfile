@@ -1,21 +1,19 @@
-FROM alpine:latest
+FROM ${BASE_IMAGE}
 
 ARG TARGETPLATFORM
 
-RUN apk update && \
+# Detemine the base OS, and use the appropriate package manager to install utils
+RUN if grep -q '^ID=alpine$' /etc/os-release; then \
+  apk update && \
   apk upgrade && \
-  apk add --update --no-cache \
-  curl \
-  bash \
-  jq \
-  yq \
-  figlet \
-  unzip \
-  zip \
-  git \
-  shellcheck \
-  nano && \
-  rm -rf /var/cache/apk/*
+  apk add --update --no-cache curl bash jq yq figlet unzip zip git shellcheck nano && \
+  rm -rf /var/cache/apk/* \
+  else \
+  apt update -yq && \
+  apt upgrade -yq && \
+  apt install -yq --no-install-recommends --no-install-suggests ca-certificates wget curl bash jq figlet unzip zip git shellcheck nano && \
+  rm -rf /var/lib/apt/lists/* \
+  fi
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
