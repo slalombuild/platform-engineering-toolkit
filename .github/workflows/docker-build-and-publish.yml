@@ -28,7 +28,7 @@ jobs:
         run: |
           docker buildx install
           docker buildx create --use
-          docker build . --platform linux/amd64 --file images/standard-alpine-amd64/Dockerfile --no-cache -t standard-alpine-amd64:${{ github.sha }}
+          docker build . --platform linux/amd64 --load --file images/standard-alpine-amd64/Dockerfile --no-cache -t standard-alpine-amd64:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
