@@ -65,9 +65,9 @@ jobs:
       #     docker inspect -f "{{ .Size }}" standard-alpine-amd64:${{ github.sha }} | numfmt --to=si
       #     docker inspect -f "{{ .Size }}" standard-alpine-arm64:${{ github.sha }} | numfmt --to=si
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and publish standard alpine
         id: publish-standard-alpine
@@ -100,9 +100,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and publish full ubuntu
         id: publish-full-ubuntu
