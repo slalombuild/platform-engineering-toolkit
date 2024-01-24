@@ -21,7 +21,8 @@ RUN apt update -yq && \
   && rm -rf /var/lib/apt/lists/*
 
 # Install languages, libraries and frameworks
-RUN apt install -yq --no-install-recommends --no-install-suggests \
+RUN apt update -yq && \
+  apt install -yq --no-install-recommends --no-install-suggests \
   nodejs \
   npm \
   python3 \
