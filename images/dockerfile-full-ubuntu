@@ -18,7 +18,7 @@ RUN apt update -yq && \
   shellcheck \
   nano \
   tar \
-  rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
 # Install languages, libraries and frameworks
 RUN apt install -yq --no-install-recommends --no-install-suggests \
@@ -26,8 +26,8 @@ RUN apt install -yq --no-install-recommends --no-install-suggests \
   npm \
   python3 \
   python3-pip \
-  golang && \
-  rm -rf /var/lib/apt/lists/*
+  golang \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install terraform (https://github.com/hashicorp/terraform)
 RUN export tfrelease="$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | awk -F / '{print substr($NF,2);}')" \
