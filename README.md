@@ -57,7 +57,7 @@ docker pull ghcr.io/slalombuild/pe-toolkit-standard-ubuntu:latest
 
 Sure, go ahead and submit a PR. Some considerations when adding a tool -
 - Should it be in Standard and/or Full?
-- Tools should be added to all versions of the base OS. I.e. if it's added to `full-alpine-amd64`, it should also be added to `full-ubuntu-amd64`.
+- Tools should be added to all versions of the base OS. I.e. if it's added to `full-alpine`, it should also be added to `full-ubuntu`.
 - If the tool significantly increases the image size, is it something we want in our toolkit, or something we'd run in a pipeline using an official image for the tool?
 - Standard is intended to be lightweight, mainly used in pipelines, and Full is intended for development environments
 
