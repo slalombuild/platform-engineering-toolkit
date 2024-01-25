@@ -14,23 +14,16 @@ Images are updated weekly (at least), and more frequently when tooling updates o
 To use an image in your pipeline, pull from one of these URLs:
 
 ```bash
-# amd64
-ghcr.io/slalombuild/pe-toolkit-standard-alpine-amd64:latest
-ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:latest
-ghcr.io/slalombuild/pe-toolkit-full-alpine-amd64:latest
-ghcr.io/slalombuild/pe-toolkit-full-ubuntu-amd64:latest
-
-# arm64
-ghcr.io/slalombuild/pe-toolkit-standard-alpine-arm64:latest
-ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-arm64:latest
-ghcr.io/slalombuild/pe-toolkit-full-alpine-arm64:latest
-ghcr.io/slalombuild/pe-toolkit-full-ubuntu-arm64:latest
+ghcr.io/slalombuild/pe-toolkit-standard-alpine:latest
+ghcr.io/slalombuild/pe-toolkit-standard-ubuntu:latest
+ghcr.io/slalombuild/pe-toolkit-full-alpine:latest
+ghcr.io/slalombuild/pe-toolkit-full-ubuntu:latest
 ```
 (All images are listed [here](https://github.com/orgs/SlalomBuild/packages?repo_name=platform-engineering-toolkit))
 
 Or to use an image locally (assuming you already have docker setup), run:
 ```bash
-docker pull ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:latest
+docker pull ghcr.io/slalombuild/pe-toolkit-standard-ubuntu:latest
 ```
 
 ### FAQ
@@ -39,13 +32,32 @@ docker pull ghcr.io/slalombuild/pe-toolkit-standard-ubuntu-amd64:latest
 
 | Standard | Full |
 | --- | --- |
-| `terraform`<br/> `atmos`<br/> `curl`<br/> `bash`<br/> `jq`<br/> `yq`<br/> `figlet`<br/> `unzip`<br/> `zip`<br/> `git`<br/> `shellcheck`<br/> `nano`<br/> `tflint`<br/> `tfsec`<br/> `opa`<br/>| _everything in standard_<br/>`hadolint`<br/>`terraform-docs`<br/>`node` and `npm`<br/>`python` and `pip`<br/>`go`<br/> |
+| `terraform` | `terraform` |
+| `atmos` | `atmos` |
+| `curl` | `curl` |
+| `bash` | `bash` |
+| `jq` | `jq` |
+| `yq` | `yq` |
+| `figlet` | `figlet` |
+| `unzip` | `unzip` |
+| `zip` | `zip` |
+| `git` | `git` |
+| `shellcheck` | `shellcheck` |
+| `nano` | `nano` |
+| `tflint` | `tflint` |
+| `tfsec` | `tfsec` |
+| `opa` | `opa` |
+| | `hadolint` |
+| | `terraform-docs` |
+| | `node` and `npm` |
+| | `python` and `pip` |
+| | `go` |
 
 #### I'd like the image(s) to include x, can I add it?
 
 Sure, go ahead and submit a PR. Some considerations when adding a tool -
 - Should it be in Standard and/or Full?
-- Tools should be added to all versions of the base OS. I.e. if it's added to `full-alpine-amd64`, it should also be added to `full-ubuntu-amd64`.
+- Tools should be added to all versions of the base OS. I.e. if it's added to `full-alpine`, it should also be added to `full-ubuntu`.
 - If the tool significantly increases the image size, is it something we want in our toolkit, or something we'd run in a pipeline using an official image for the tool?
 - Standard is intended to be lightweight, mainly used in pipelines, and Full is intended for development environments
 
