@@ -71,6 +71,6 @@ RUN case ${TARGETPLATFORM} in \
   *)              ARCHITECTURE=amd64   ;; \
   esac \
   && echo "Installing opa (${ARCHITECTURE})" \
-  && curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_${ARCHITECTURE}_static \
+  && wget -O opa https://openpolicyagent.org/downloads/latest/opa_linux_${ARCHITECTURE}_static \
   && chmod +x opa \
   && mv opa /usr/local/bin/opa
